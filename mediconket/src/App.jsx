@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [disease, setDisease] = useState('');
+  const hospitalSuggestions = {
+    cardiac: ['Apollo Hospital, Delhi', 'Fortis Escorts, Chennai'],
+    neuro: ['NIMHANS, Bangalore', 'AIIMS, Delhi'],
+    orthopedic: ['Sancheti Hospital, Pune', 'KIMS, Hyderabad'],
+    general: ['Manipal Hospital', 'Max Healthcare']
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('Form Submitted Successfully!');
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="container">
+      <h1>Mediconket - Your Health Companion</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Full Name" required />
+        <input type="number" placeholder="Age" required />
+        <input type="number" placeholder="Height (cm)" required />
+        <input type="number" placeholder="Weight (kg)" required />
+        <input type="tel" placeholder="Mobile Number" required />
 
-export default App
+        <textarea placeholder="Disease Information" required></textarea>
+        <textarea placeholder="Symptoms" required></textarea>
+        <textarea placeholder="Problem Description" required></textarea>
+        <textarea placeholder="Prevention Methods"></textarea>
+
+        <input type="file" multiple title="Upload Previous Medical Files" />
+        <input type="file" multiple title="Upload Previous Prescriptions" />
+
+        <select value={disease} onChange={(e) => setDisease(e.target.value)} required>
+          <option value="">-- Select Disease --</option>
+          <option value="cardiac">Cardiac</option>
+          <option value="neuro">Neurological</option>
+          <option value="orthopedic">Orthopedic</option>
+          <option value="general">General</option>
+        </select>
+
+        {disease && (
+          <div>
+            <h3>Suggested Hospitals:</h3>
+            <ul>
+              {hospitalSuggestions[disease].map((hospital, i) => (
+                <li key={i}>{hospital}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <label>Medicine Reminder Time:</label>
+        <input type="time" />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default App;
